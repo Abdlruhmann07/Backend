@@ -55,10 +55,10 @@ router.post('/products', async (req, res) => {
 
 
 // Get single product
-router.post('/singleProduct/:id', async (req, res) => {
+router.get('/singleProduct/:id', async (req, res) => {
     try {
         const productId = req.params.id;
-        const SingleProduct = await Product.findOne({ id: productId })
+        const SingleProduct = await Product.findOne({ _id: productId })
 
         if (!SingleProduct) {
             return res.send({ message: 'No Product found' });

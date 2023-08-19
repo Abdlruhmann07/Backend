@@ -28,18 +28,18 @@ const checkUser = (req, res, next) => {
         jwt.verify(token, 'dodger secret dodger', async (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
-                res.locals.user = null;
+                res.locals.CurrUser = null;
                 next();
             } else {
                 console.log(decodedToken);
                 let Currentuser = await User.findById(decodedToken.id);
-                res.locals.user = Currentuser;
+                res.locals.CurrUser = Currentuser;
 
                 next();
             }
         })
     } else {
-        res.locals.user = null;
+        res.locals.CurrUser = null;
         next();
     }
 

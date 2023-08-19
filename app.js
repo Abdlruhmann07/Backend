@@ -9,6 +9,7 @@ const PORT = process.env.PORT
 const app = express();
 // Importing modules
 // Importing Routes
+const userRoutes = require('./routes/user')
 const signupRoutes = require('./routes/signup')
 const loginRoutes = require('./routes/login')
 const logoutRoutes = require('./routes/logout')
@@ -28,6 +29,7 @@ app.use(signupRoutes);
 app.use(loginRoutes);
 app.use(logoutRoutes);
 app.use(productRoutes);
+app.use(userRoutes);
 
 // Database connect
 mongoose.connect(`mongodb+srv://${process.env.Database_username}:${process.env.Database_Passwrod}@cluster0.dgihmg1.mongodb.net/ecommerce-website`, {

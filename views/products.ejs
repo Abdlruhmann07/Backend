@@ -56,6 +56,10 @@
             <h3><%= product.title %></h3>
             <p><%= product.price %></p>
             <p><%= totalProductCount %></p>
+            <form action="/addtocart" method="POST">
+              <input type="hidden" name="productId" value="<%= product._id %>">
+              <button type="submit">Add to Cart</button>
+            </form>
           </div>
         <% }); %>
       </div>

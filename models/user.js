@@ -22,6 +22,14 @@ const user_Schema = mongoose.Schema({
         minlength: [6, 'Minmum password length is 6 characters'],
         maxlength: 1024,
     },
+    cart: {
+        items: [
+            {
+                productId: mongoose.Types.ObjectId,
+                quantity: Number
+            }
+        ]
+    },
     token: {
         type: String,
     }
