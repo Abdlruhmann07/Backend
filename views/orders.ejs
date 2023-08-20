@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" href="/styles/orders.css">
+    <style>.orders-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .order-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .order-item {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+    }
+    
+    .order-item h2 {
+        font-size: 18px;
+        margin: 0;
+        color: #333;
+    }
+    
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+    
+    .item {
+        padding: 5px;
+        border: 1px solid #ddd;
+        margin-top: 5px;
+        background-color: #fff;
+    }
+    
+    .item h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #444;
+    }
+    
+    .item p {
+        margin: 0;
+        color: #666;
+    }</style>
+</head>
+<body>
+    <div class="orders-container">
+        <h1>Orders</h1>
+        <ul class="order-list">
+            <% userOrders.forEach(function(order) { %>
+                <li class="order-item">
+                    <h2>Order ID: <%= order._id %></h2>
+                    <p>User: <%= order.user.userName %></p>
+                    <p>Email: <%= order.user.email %></p>
+                    <ul class="item-list">
+                        <% order.items.forEach(function(item) { %>
+                            <li class="item">
+                                <img src="<%= item.image %>" alt="<%= item.name %>">
+                                <h3><%= item.title %></h3>
+                                <p>Price: <%= item.price %></p>
+                                <p>Quantity: <%= item.quantity %></p>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</body>
+</html>

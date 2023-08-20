@@ -6,6 +6,7 @@ const { default: mongoose } = require("mongoose");
 // Importing models
 const Product = require('../models/product');
 const User = require("../models/user");
+const Order = require('../models/order');
 // Importing middlewares
 const { requireAuth, checkUser } = require('../middlewares/authMiddleware')
 
@@ -59,14 +60,52 @@ router.get("/cart", checkUser, async (req, res) => {
             },
             quantity: userInfo.cart.items.find((item) => item.productId.toString() === product._id.toString()).quantity,
         }));
-        res.json({
+        res.render('cart', {
             cartItems: items,
-        });
+        })
     } catch (err) {
         console.log(err);
     }
 });
 
+
+// Add or place new Order POST
+router.post('/addorder', checkUser, async (req, res) => {
+    try {
+        const cartItems = req.body.cartItems;
+        const parsedCartItems = cartItems.map(item => JSON.parse(item));
+        const newOrder = await Order.create({
+            items: parsedCartItems,
+            user: {
+                _id: res.locals.CurrUser._id,
+                userName: res.locals.CurrUser.username,
+                email: res.locals.CurrUser.email,
+            }
+        });
+
+        // Clearing user cart after order
+        updatedCartinfo = await User.updateOne({ _id: res.locals.CurrUser._id }, { $set: { cart: { items: [] } } }
+        );
+        console.log(updatedCartinfo);
+        console.log('Order Created!');
+        res.json({ message: 'Order Created!', newOrder })
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+
+// Get Orders
+router.get('/orders', checkUser, async (req, res) => {
+    try {
+        const userOrders = await Order.find({ "user._id": res.locals.CurrUser._id })
+        console.log(userOrders);
+        res.render('orders', { userOrders: userOrders });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+})
 
 
 module.exports = router;

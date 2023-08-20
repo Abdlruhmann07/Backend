@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+    <h1>Cart Items</h1>
+    <div class="cart-grid">
+        <% cartItems.forEach(function(item) { %>
+            <div class="cart-card">
+                <img src="<%= item.image %>" alt="<%= item.title %>">
+                <h3><%= item.title %></h3>
+                <p>Price: <%= item.price %></p>
+                <p>Quantity: <%= item.quantity %></p>
+                <!-- Add more information as needed -->
+
+                <!-- Assuming 'cartItems' is an array of items sent as JSON string in your route -->
+                <input type="hidden" name="cartItems[]" value="<%= JSON.stringify(item) %>">
+            </div>
+        <% }); %>
+    </div>
+    
+    <!-- Form to submit the order -->
+    <form action="/addorder" method="POST">
+        <!-- Hidden input to store the cartItems array -->
+        <% cartItems.forEach(function(item) { %>
+            <input type="hidden" name="cartItems[]" value="<%= JSON.stringify(item) %>">
+        <% }); %>
+        
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
